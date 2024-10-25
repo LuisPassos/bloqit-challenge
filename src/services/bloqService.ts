@@ -1,5 +1,5 @@
 import { NotFoundException } from "../exceptions/notFoundException";
-import BloqModel from "../models/bloqModel";
+import BloqModel from "../models/Bloq";
 
 class BloqService {
   public async getBloqByIdOrThrow(id: string) {

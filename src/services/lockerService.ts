@@ -1,6 +1,6 @@
 import { LockerStatus } from "../enums/lockerEnums";
 import { NotFoundException } from "../exceptions/notFoundException";
-import LockerModel from "../models/lockerModel";
+import LockerModel from "../models/Locker";
 import { bloqService } from "./bloqService";
 
 class LockerService {

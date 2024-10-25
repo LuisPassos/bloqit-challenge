@@ -1,4 +1,4 @@
-import RentModel from "../models/rentModel";
+import RentModel from "../models/Rent";
 import { NotFoundException } from "../exceptions/notFoundException";
 import { RentSize, RentStatus } from "../enums/rentEnums";
 import { ConflictException } from "../exceptions/conflictException";
@@ -8,44 +8,30 @@ import { LockerStatus } from "../enums/lockerEnums";
 class RentService {
   public async getRentByIdOrThrow(id: string) {
     const rent = await RentModel.findOne({ id });
-
-    if (!rent) {
-      throw new NotFoundException("Rent does not exist");
-    }
-
+    if (!rent) throw new NotFoundException("Rent not found");
     return rent;
   }
 
-  public async getAll() {
-    return await RentModel.find();
+  public getAll() {
+    return RentModel.find();
   }
 
-  public async create(data: { weight: number; size: RentSize }) {
-    const { weight, size } = data;
-    return await RentModel.create({ weight, size, status: RentStatus.CREATED });
+  public create(data: { weight: number; size: RentSize }) {
+    return RentModel.create({
+      ...data,
+      status: RentStatus.CREATED,
+    });
   }
 
-  public async reserveLocker(id: string, lockerId: string) {
-    const rent = await this.getRentByIdOrThrow(id);
+  public async reserveLocker(rentId: string, lockerId: string) {
+    const rent = await this.getRentByIdOrThrow(rentId);
     const locker = await lockerService.getLockerByIdOrThrow(lockerId);
 
-    if (locker.isOccupied) {
-      throw new ConflictException("Locker is occupied");
-    }
+    this.validateLockerAvailability(locker);
+    this.validateRentForLockerAssignment(rent);
 
-    if (rent.lockerId !== null || rent.status !== RentStatus.CREATED) {
-      throw new ConflictException("Locker can't be updated.");
-    }
-
-    await lockerService.updateStatus(locker.id, {
-      status: LockerStatus.CLOSED,
-      isOccupied: true,
-    });
-
-    rent.lockerId = locker.id;
-    rent.status = RentStatus.WAITING_DROPOFF;
-
-    return await rent.save();
+    await this.assignLockerToRent(rent, locker);
+    return rent.save();
   }
 
   public async updateStatus(id: string, status: RentStatus) {
@@ -55,25 +41,58 @@ class RentService {
       throw new ConflictException("Parcel already delivered");
     }
 
-    if (
-      status === RentStatus.CREATED ||
-      status === RentStatus.WAITING_DROPOFF
-    ) {
-      throw new ConflictException(
-        "You cant't recreate or allocate locker to parcel again"
-      );
+    if (this.isInvalidStatusChange(status)) {
+      throw new ConflictException("Invalid status change");
     }
 
     rent.status = status;
+    const currentTime = new Date();
 
-    if (status === RentStatus.DELIVERED && rent.lockerId) {
-      await lockerService.updateStatus(rent.lockerId, {
-        status: LockerStatus.CLOSED,
-        isOccupied: false,
-      });
+    if (status === RentStatus.WAITING_PICKUP) {
+      rent.droppedOffAt = currentTime;
     }
 
-    return await rent.save();
+    if (status === RentStatus.DELIVERED && rent.lockerId) {
+      rent.pickedUpAt = currentTime;
+      await this.closeLocker(rent.lockerId);
+    }
+
+    return rent.save();
+  }
+
+  private validateLockerAvailability(locker: any) {
+    if (locker.isOccupied) {
+      throw new ConflictException("Locker is occupied");
+    }
+  }
+
+  private validateRentForLockerAssignment(rent: any) {
+    if (rent.lockerId || rent.status !== RentStatus.CREATED) {
+      throw new ConflictException("Locker cannot be updated");
+    }
+  }
+
+  private async assignLockerToRent(rent: any, locker: any) {
+    await lockerService.updateStatus(locker.id, {
+      status: LockerStatus.CLOSED,
+      isOccupied: true,
+    });
+
+    rent.lockerId = locker.id;
+    rent.status = RentStatus.WAITING_DROPOFF;
+  }
+
+  private async closeLocker(lockerId: string) {
+    await lockerService.updateStatus(lockerId, {
+      status: LockerStatus.CLOSED,
+      isOccupied: false,
+    });
+  }
+
+  private isInvalidStatusChange(status: RentStatus): boolean {
+    return (
+      status === RentStatus.CREATED || status === RentStatus.WAITING_DROPOFF
+    );
   }
 }
 

@@ -1,0 +1,337 @@
+{
+	"info": {
+		"_postman_id": "5cb63bdf-cf64-40d1-ad74-247259ac0232",
+		"name": "BloqIT Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39261318"
+	},
+	"item": [
+		{
+			"name": "Bloq",
+			"item": [
+				{
+					"name": "Create Bloq",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Luitton Vouis Champs Elysées\",\n    \"address\": \"101 Av. des Champs-Élysées, 75008 Paris, France\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/bloqs",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"bloqs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Bloqs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/bloqs",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"bloqs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Bloq",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/bloqs/43732485-95fd-42e0-bde2-7c2705dd609f",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"bloqs",
+								"43732485-95fd-42e0-bde2-7c2705dd609f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Locker",
+			"item": [
+				{
+					"name": "Create Locker",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bloqId\": \"43732485-95fd-42e0-bde2-7c2705dd609f\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/lockers",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"lockers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Lockers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/lockers",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"lockers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Locker",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/lockers/d6949a55-0d22-4112-8099-94199b511828",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"lockers",
+								"d6949a55-0d22-4112-8099-94199b511828"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Status",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"OPEN\",\n    \"isOccupied\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/lockers/d6949a55-0d22-4112-8099-94199b511828/status",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"lockers",
+								"d6949a55-0d22-4112-8099-94199b511828",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Free Locker",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/lockers/free/43732485-95fd-42e0-bde2-7c2705dd609f",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"lockers",
+								"free",
+								"43732485-95fd-42e0-bde2-7c2705dd609f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rent",
+			"item": [
+				{
+					"name": "Create Rent",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"weight\": 120,\n    \"size\": \"L\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/rents",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"rents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Rents",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/rents",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"rents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rent",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/rents/259ea270-92d0-42f9-a26a-bb4d41fa0fea",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"rents",
+								"259ea270-92d0-42f9-a26a-bb4d41fa0fea"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reserve Locker",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"lockerId\": \"d6949a55-0d22-4112-8099-94199b511828\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/rents/259ea270-92d0-42f9-a26a-bb4d41fa0fea/reserve",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"rents",
+								"259ea270-92d0-42f9-a26a-bb4d41fa0fea",
+								"reserve"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Status",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"DELIVERED\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/rents/259ea270-92d0-42f9-a26a-bb4d41fa0fea/status",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"rents",
+								"259ea270-92d0-42f9-a26a-bb4d41fa0fea",
+								"status"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

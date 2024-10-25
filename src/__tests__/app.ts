@@ -411,4 +411,14 @@ describe("PATCH /rents/:id/status", () => {
     });
     expect(response.body).toHaveProperty("createdAt");
   });
+
+  it("should return 409 if trying to change status after deliver", async () => {
+    const response = await request
+      .patch(`/api/v1/rents/${rentId}/status`)
+      .send({
+        status: RentStatus.WAITING_PICKUP,
+      })
+      .set("Accept", "application/json");
+    expect(response.statusCode).toBe(409);
+  });
 });
