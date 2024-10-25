@@ -2,7 +2,7 @@ import { Router } from "express";
 import { RentController } from "../controllers/rentController";
 import { CreateRentDTO } from "../dto/createRentDto";
 import { validateBody } from "../middlewares/validatorMiddleware";
-import { ReserveLockerDTO } from "../dto/reserveLocker.dto";
+import { ReserveLockerDTO } from "../dto/reserveLockerDto";
 import { UpdateRentStatusDTO } from "../dto/updateRentStatusDto";
 
 export const rentRouter = Router();

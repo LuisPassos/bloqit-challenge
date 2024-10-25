@@ -2,7 +2,7 @@ import { Router } from "express";
 import { LockerController } from "../controllers/lockerController";
 import { validateBody } from "../middlewares/validatorMiddleware";
 import { CreateLockerDTO } from "../dto/createLockerDto";
-import { UpdateLockerStatusDTO } from "../dto/updateLockerStatus.dto";
+import { UpdateLockerStatusDTO } from "../dto/updateLockerStatusDto";
 
 export const lockerRouter = Router();
 
